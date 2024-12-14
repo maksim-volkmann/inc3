@@ -14,7 +14,7 @@ services:
       - inception_network
     restart: always
     environment:
-      - DOMAIN_NAME=${DOMAIN_NAME} # Pass DOMAIN_NAME to the container
+      - DOMAIN_NAME=${DOMAIN_NAME}
   wordpress:
     build: requirements/wordpress/.
     container_name: wp-php
@@ -31,7 +31,7 @@ services:
       - admin_pass
       - admin_email
     environment:
-      - DOMAIN_NAME=${DOMAIN_NAME}  # Reference the variable from .env
+      - DOMAIN_NAME=${DOMAIN_NAME} # from .env
     restart: always
   mariadb:
     build: requirements/mariadb/.
@@ -59,7 +59,8 @@ services:
       - /home/mvolkman/data/web:/var/www/html
     ports:
       - "21:21"
-      - "21100-21110:21100-21110"
+      # - "21100-21110:21100-21110"
+      - "40000-40010:40000-40010"
     networks:
       - inception_network
     restart: always
@@ -93,6 +94,11 @@ services:
       context: ./requirements/bonus/cadvisor
     container_name: cadvisor
     volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8081:8080"  # Map container's 8080 to host's 8081

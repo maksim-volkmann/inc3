@@ -30,6 +30,7 @@ server {
 # Default server configuration
 #
 server {
+	server_name ${DOMAIN_NAME};
 	# listen 80 default_server;
 	# listen [::]:80 default_server;
 
@@ -60,7 +61,7 @@ server {
 	# Add index.php to the list if you are using PHP
 	index index.php index.html index.htm index.nginx-debian.html;
 
-	server_name ${DOMAIN_NAME};
+
 
 	location / {
 		# First attempt to serve request as file, then
@@ -93,6 +94,18 @@ server {
 		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 	}
 
+	# location /cadvisor/ {
+	# 	proxy_pass http://cadvisor:8080/;  # Ensure this matches your Docker network setup
+	# 	proxy_redirect ~^/containers/ /cadvisor/containers/;
+	# 	proxy_redirect ~^/docker/ /cadvisor/docker/;
+	# 	proxy_redirect ~^/metrics/ /cadvisor/metrics/;
+	# 	proxy_redirect ~^/podman/ /cadvisor/podman/;
+	# 	proxy_set_header Host $host;
+	# 	proxy_set_header X-Real-IP $remote_addr;
+	# 	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	# 	proxy_set_header X-Forwarded-Proto $scheme;
+	# }
+
 	# deny access to .htaccess files, if Apache's document root
 	# concurs with nginx's one
 	#
@@ -100,43 +113,6 @@ server {
 	#	deny all;
 	#}
 }
-
-	# Cats website
-# server {
-# 	listen 443 ssl;
-# 	listen [::]:443 ssl;
-# 	server_name cats.mvolkman.42.fr;
-
-# 	ssl_certificate /etc/nginx/ssl/nginx.crt;
-# 	ssl_certificate_key /etc/nginx/ssl/nginx.key;
-# 	ssl_protocols TLSv1.2 TLSv1.3;
-# 	ssl_prefer_server_ciphers on;
-
-# 	root /var/www/cats;
-# 	index index.html;
-
-# 	location / {
-# 		try_files $uri $uri/ =404;
-# 	}
-# }
-
-# server {
-# 	listen 443 ssl;
-# 	listen [::]:443 ssl;
-# 	server_name cats.mvolkman.42.fr;
-
-# 	ssl_certificate /etc/nginx/ssl/nginx.crt;
-# 	ssl_certificate_key /etc/nginx/ssl/nginx.key;
-# 	ssl_protocols TLSv1.2 TLSv1.3;
-# 	ssl_prefer_server_ciphers on;
-
-# 	root /var/www/cats; # Ensure this points to the correct volume
-# 	index index.html;
-
-# 	location / {
-# 		try_files $uri $uri/ =404;
-# 	}
-# }
 
 
 # Virtual Host configuration for example.com

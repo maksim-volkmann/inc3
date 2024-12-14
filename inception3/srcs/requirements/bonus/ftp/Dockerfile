@@ -18,5 +18,7 @@ RUN chmod +x /ftp.sh
 
 EXPOSE 21 40000-40010
 
+# 21 21100-21110
+
 # Launch vsftpd
 ENTRYPOINT ["/ftp.sh"]
