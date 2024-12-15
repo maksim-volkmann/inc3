@@ -1,5 +1,31 @@
 ## Inception Makefile
 
+# Define variables for directories
+# DATA_DIR := /home/mvolkman/data
+# DB_DIR := $(DATA_DIR)/db
+# WP_DIR := $(DATA_DIR)/wp
+
+# # Default target
+# up: create-directories
+# 	docker-compose up -d
+
+# # Target to create required directories
+# create-directories:
+# 	@echo "Creating required directories..."
+# 	mkdir -p $(DB_DIR)
+# 	mkdir -p $(WP_DIR)
+# 	@echo "Directories created: $(DB_DIR), $(WP_DIR)"
+
+# # Bring down the containers
+# down:
+# 	docker-compose down
+
+# # Clean up (optional)
+# clean: down
+# 	rm -rf $(DATA_DIR)
+# 	@echo "Cleaned up data directory: $(DATA_DIR)"
+
+
 default: build up
 
 build:

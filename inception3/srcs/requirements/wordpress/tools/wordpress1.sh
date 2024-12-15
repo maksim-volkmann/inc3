@@ -10,6 +10,9 @@ DB_PASS=$(cat /run/secrets/db_pass)
 ADMIN_USER=$(cat /run/secrets/admin_user)
 ADMIN_PASS=$(cat /run/secrets/admin_pass)
 ADMIN_EMAIL=$(cat /run/secrets/admin_email)
+REGULAR_USER=$(cat /run/secrets/regular_user)
+REGULAR_PASS=$(cat /run/secrets/regular_pass)
+REGULAR_EMAIL=$(cat /run/secrets/regular_email)
 
 # ENV
 DOMAIN_NAME=${DOMAIN_NAME}
@@ -26,6 +29,7 @@ if [ ! -f "wp-config.php" ]; then
 	./wp-cli.phar core download --allow-root
 	./wp-cli.phar config create --dbname=${DB_NAME} --dbuser=${DB_USER} --dbpass=${DB_PASS} --dbhost=mariadb --allow-root
 	./wp-cli.phar core install --url="https://$DOMAIN_NAME" --title=inception --admin_user=${ADMIN_USER} --admin_password=${ADMIN_PASS} --admin_email=${ADMIN_EMAIL} --allow-root
+	./wp-cli.phar user create $REGULAR_USER $REGULAR_EMAIL --role=subscriber --user_pass=$REGULAR_PASS --allow-root
 	# ./wp-cli.phar option update siteurl "https://$DOMAIN_NAME" --allow-root
 	# ./wp-cli.phar option update home "https://$DOMAIN_NAME" --allow-root
 

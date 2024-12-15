@@ -8,8 +8,8 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/mvolkman/data/web:/var/www/html
-      - /home/mvolkman/data/cats:/var/www/cats
+      - wp-data:/var/www/html
+      # - /home/mvolkman/data/cats:/var/www/cats
     networks:
       - inception_network
     restart: always
@@ -19,7 +19,7 @@ services:
     build: requirements/wordpress/.
     container_name: wp-php
     volumes:
-      - /home/mvolkman/data/web:/var/www/html
+      - wp-data:/var/www/html
     networks:
       - inception_network
     secrets:
@@ -30,6 +30,9 @@ services:
       - admin_user
       - admin_pass
       - admin_email
+      - regular_user
+      - regular_pass
+      - regular_email
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME} # from .env
     restart: always
@@ -39,7 +42,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /home/mvolkman/data/db:/var/lib/mysql
+      - db-data:/var/lib/mysql
     secrets:
       - db_name
       - db_user
@@ -56,7 +59,7 @@ services:
       - ftp_user
       - ftp_pass
     volumes:
-      - /home/mvolkman/data/web:/var/www/html
+      - wp-data:/var/www/html
     ports:
       - "21:21"
       # - "21100-21110:21100-21110"
@@ -106,6 +109,22 @@ services:
     networks:
       - inception_network
 
+volumes:
+  db-data:
+    name: "db-volume"
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/mvolkman/data/db
+
+  wp-data:
+    name: "wp-volume"
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: /home/mvolkman/data/wp
 
 networks:
   inception_network:
@@ -129,3 +148,9 @@ secrets:
     file: ../secrets/ftp_user.txt
   ftp_pass:
     file: ../secrets/ftp_pass.txt
+  regular_user:
+    file: ../secrets/regular_user.txt
+  regular_pass:
+    file: ../secrets/regular_pass.txt
+  regular_email:
+    file: ../secrets/regular_email.txt
